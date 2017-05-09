@@ -1,4 +1,4 @@
-#LOCAL ENV SETUP
+# LOCAL ENV SETUP
 
 ### building docker file
 - docker build -t local-setup .
