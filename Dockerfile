@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
     && rm -r /var/lib/apt/lists/* \
     && docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
     && docker-php-ext-install \
+      mysqli \
       intl \
       mbstring \
       mcrypt \
