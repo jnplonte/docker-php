@@ -1,4 +1,4 @@
-FROM php:7-apache
+FROM php:7.0-apache
 
 MAINTAINER John Paul Onte <jnpl.onte@gmail.com>
 
@@ -7,6 +7,9 @@ RUN apt-get update && apt-get install -y \
       libicu-dev \
       libpq-dev \
       libmcrypt-dev \
+      libcurl4-openssl-dev \
+      libmemcached-dev \
+      curl \
     && rm -r /var/lib/apt/lists/* \
     && docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
     && docker-php-ext-install \
@@ -15,16 +18,27 @@ RUN apt-get update && apt-get install -y \
       mbstring \
       mcrypt \
       pcntl \
+      curl \
       pdo_mysql \
       pdo_pgsql \
-      pgsql \
       zip \
       opcache
+
+# Install memcached
+RUN curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/php7.tar.gz" \
+    && mkdir -p /usr/src/php/ext/memcached \
+    && tar -C /usr/src/php/ext/memcached -zxvf /tmp/memcached.tar.gz --strip 1 \
+    && docker-php-ext-configure memcached \
+    && docker-php-ext-install memcached \
+    && rm /tmp/memcached.tar.gz
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
-# Add Error log Folder
+# Install nodes
+RUN curl https://nodejs.org/dist/v8.4.0/node-v8.4.0-linux-x64.tar.xz | tar --file=- --extract --xz --directory /usr/local/ --strip-components=1
+
+# Add Error log folder
 RUN mkdir -p /var/www/errorlogs && chmod 777 -R /var/www/errorlogs
 
 # Put apache config
