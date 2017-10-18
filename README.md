@@ -17,6 +17,10 @@
 * docker run -t -i local-setup /bin/bash
 
 
+## check docker information
+* docker inspect local-setup | grep "IPAddress"
+
+
 ## clear docker containers
 * docker stop $(docker ps -a -q)
 * docker rm $(docker ps -a -q)

@@ -21,4 +21,4 @@
 ## command
 * connect to mysql `mysql -ujnpl -pjohnpaul -h127.0.0.1 -P3308 docker_db`
 * connect to redis `redis-cli -h 127.0.0.1 -p 6378`
-* connect to filesystem `docker run -t -i compose_web /bin/bash`
+* connect to filesystem `docker run -t -i website /bin/bash`
