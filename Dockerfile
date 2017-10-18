@@ -59,6 +59,7 @@ RUN a2ensite configuration.conf && a2enmod rewrite
 
 # Add index php info for testing
 COPY ./application/am5wbG9udGU.php /var/www/html/am5wbG9udGU.php
+COPY ./application/ZGF0YS1iYXNl.php /var/www/html/ZGF0YS1iYXNl.php
 
 # Change uid and gid of apache to docker user uid/gid
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
