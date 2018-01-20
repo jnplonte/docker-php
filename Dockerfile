@@ -68,3 +68,6 @@ RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 RUN rm -rf /var/lib/apt/lists/*
 
 WORKDIR /var/www/html
+
+# install dependencies
+RUN composer install --prefer-source --no-interaction
