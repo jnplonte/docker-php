@@ -40,6 +40,9 @@ RUN apt-get update && apt-get install git git-core -y && apt-get clean
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
+# install dependencies
+# RUN composer install --prefer-source --no-interaction
+
 # Install nodejs
 RUN curl -sS https://nodejs.org/dist/v8.12.0/node-v8.12.0-linux-x64.tar.xz | tar --file=- --extract --xz --directory /usr/local/ --strip-components=1
 
