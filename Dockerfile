@@ -2,6 +2,7 @@ FROM php:7.2-apache
 
 # Install PHP extensions
 RUN apt-get update && apt-get install -y --no-install-recommends apt-utils && apt-get install -y \
+    dialog apt-utils \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
     libpng-dev \
@@ -14,10 +15,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils && ap
     pkg-config \
   && rm -r /var/lib/apt/lists/* \
   && docker-php-ext-configure \
-  pdo_mysql --with-pdo-mysql=mysqlnd \
+    pdo_mysql --with-pdo-mysql=mysqlnd \
   && docker-php-ext-install \
     mysqli \
-    intl \
     pcntl \
     pdo_mysql \
     pdo_pgsql \
