@@ -1,45 +1,38 @@
-FROM php:7.0-apache
-
-MAINTAINER John Paul Onte <jnpl.onte@gmail.com>
+FROM php:7.2-apache
 
 # Install PHP extensions
-RUN apt-get update && apt-get install -y \
-      libfreetype6-dev \
-      libjpeg62-turbo-dev \
-      libmcrypt-dev \
-      libpng12-dev \
-      libmemcached-dev \
-      libmysqlclient-dev \
-      libicu-dev \
-      libpq-dev \
-      libcurl4-openssl-dev \
-      curl \
-      --no-install-recommends apt-utils \
-    && rm -r /var/lib/apt/lists/* \
-    && docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
-    && docker-php-ext-install \
-      mysqli \
-      intl \
-      mbstring \
-      mcrypt \
-      pcntl \
-      curl \
-      pdo_mysql \
-      pdo_pgsql \
-      pgsql \
-      zip \
-      opcache \
-
-      && curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/php7.tar.gz" \
-      && mkdir -p /usr/src/php/ext/memcached \
-      && tar -C /usr/src/php/ext/memcached -zxvf /tmp/memcached.tar.gz --strip 1 \
-      && docker-php-ext-configure memcached \
-      && docker-php-ext-install memcached \
-      && rm /tmp/memcached.tar.gz \
-      && mkdir -p /usr/src/php/ext/redis \
-      && curl -L https://github.com/phpredis/phpredis/archive/3.0.0.tar.gz | tar xvz -C /usr/src/php/ext/redis --strip 1 \
-      && echo 'redis' >> /usr/src/php-available-exts \
-      && docker-php-ext-install redis
+RUN apt-get update && apt-get install -y --no-install-recommends apt-utils && apt-get install -y \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
+    libmemcached-dev \
+    default-libmysqlclient-dev \
+    libicu-dev \
+    libpq-dev \
+    libssl-dev \
+    libcurl4-openssl-dev \
+    pkg-config \
+  && rm -r /var/lib/apt/lists/* \
+  && docker-php-ext-configure \
+  pdo_mysql --with-pdo-mysql=mysqlnd \
+  && docker-php-ext-install \
+    mysqli \
+    intl \
+    pcntl \
+    pdo_mysql \
+    pdo_pgsql \
+    pgsql \
+    opcache \
+  && curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/php7.tar.gz" \
+  && mkdir -p /usr/src/php/ext/memcached \
+  && tar -C /usr/src/php/ext/memcached -zxvf /tmp/memcached.tar.gz --strip 1 \
+  && docker-php-ext-configure memcached \
+  && docker-php-ext-install memcached \
+  && rm /tmp/memcached.tar.gz \
+  && mkdir -p /usr/src/php/ext/redis \
+  && curl -L https://github.com/phpredis/phpredis/archive/3.0.0.tar.gz | tar xvz -C /usr/src/php/ext/redis --strip 1 \
+  && echo 'redis' >> /usr/src/php-available-exts \
+  && docker-php-ext-install redis
 
 # install git
 RUN apt-get update && apt-get install git git-core -y && apt-get clean
@@ -48,7 +41,7 @@ RUN apt-get update && apt-get install git git-core -y && apt-get clean
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
 # Install nodejs
-RUN curl -sS https://nodejs.org/dist/v8.4.0/node-v8.4.0-linux-x64.tar.xz | tar --file=- --extract --xz --directory /usr/local/ --strip-components=1
+RUN curl -sS https://nodejs.org/dist/v8.12.0/node-v8.12.0-linux-x64.tar.xz | tar --file=- --extract --xz --directory /usr/local/ --strip-components=1
 
 # Add Error log folder
 RUN mkdir -p /var/www/errorlogs && chmod 777 -R /var/www/errorlogs
