@@ -1,5 +1,5 @@
 <?php
-$con = @mysqli_connect('mysql', 'jnpl', 'johnpaul', 'docker_db');
+$con = @mysqli_connect('host', 'username', 'password', 'database');
 
 if (!$con) {
     echo "Error: Unable to connect to MySQL." . PHP_EOL;

@@ -50,7 +50,9 @@ RUN curl -sS https://nodejs.org/dist/v8.12.0/node-v8.12.0-linux-x64.tar.xz | tar
 RUN mkdir -p /var/www/errorlogs && chmod 777 -R /var/www/errorlogs
 
 # Put apache config
+COPY ./application/php.ini 	/usr/local/etc/php/custom.php.ini
 COPY ./application/configuration.conf /etc/apache2/sites-available/configuration.conf
+
 RUN a2ensite configuration.conf && a2enmod rewrite
 
 # Add index php info for testing
